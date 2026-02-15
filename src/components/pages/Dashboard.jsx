@@ -3,11 +3,13 @@ import SearchBar from "../SearchBar";
 import RecentCases from "../RecentCases";
 import CreateCaseButton from "../CreateCaseButton";
 import CaseModal from "../CaseModal";
+import CreateCaseModal from "../CreateCaseModal"; 
 
 export default function AdminPage() {
   const [cases, setCases] = useState([]);
   const [filteredCases, setFilteredCases] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
+  const [showCreateModal, setShowCreateModal] = useState(false); 
 
   useEffect(() => {
     const mockCases = [
@@ -39,7 +41,12 @@ export default function AdminPage() {
   };
 
   const handleCreateCase = () => {
-    alert("Create Case clicked");
+    setShowCreateModal(true);
+  };
+
+  const handleSaveCase = (newCase) => {
+    setCases((prev) => [...prev, newCase]);
+    setFilteredCases((prev) => [...prev, newCase]);
   };
 
   return (
@@ -56,6 +63,12 @@ export default function AdminPage() {
         <CaseModal
           caseData={selectedCase}
           onClose={() => setSelectedCase(null)}
+        />
+      )}
+      {showCreateModal && (
+        <CreateCaseModal
+          onClose={() => setShowCreateModal(false)}
+          onSave={handleSaveCase}
         />
       )}
     </div>

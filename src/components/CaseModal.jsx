@@ -1,4 +1,3 @@
-// components/CaseModal.js
 import React, { useState } from "react";
 
 export default function CaseModal({ caseData, onClose }) {
@@ -40,8 +39,6 @@ export default function CaseModal({ caseData, onClose }) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white w-1/2 p-6 rounded-lg relative max-h-[80vh] overflow-y-auto">
-        
-        {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-red-500 font-bold"
@@ -54,8 +51,6 @@ export default function CaseModal({ caseData, onClose }) {
         <p><strong>Name:</strong> {caseData.name}</p>
         <p><strong>Bank:</strong> {caseData.bank}</p>
         <p><strong>Status:</strong> {caseData.status}</p>
-
-        {/* Upload Section */}
         <div className="mt-6">
           <label className="block mb-2 font-semibold">
             Upload Files
@@ -63,7 +58,6 @@ export default function CaseModal({ caseData, onClose }) {
           <input type="file" multiple onChange={handleFileChange} />
         </div>
 
-        {/* File List with Selection */}
         <div className="mt-6">
           {files.length > 0 && (
             <>
@@ -89,7 +83,6 @@ export default function CaseModal({ caseData, onClose }) {
           )}
         </div>
 
-        {/* Process Button */}
         <button
           onClick={handleProcess}
           className="mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 w-full"
