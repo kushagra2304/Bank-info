@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function RecentCases({ cases }) {
+export default function RecentCases({ cases, onCaseClick }) {
   return (
     <div className="bg-white p-4 rounded-lg shadow mb-6">
       <h2 className="text-xl font-semibold mb-4">Recent Cases</h2>
@@ -19,7 +19,11 @@ export default function RecentCases({ cases }) {
           </thead>
           <tbody>
             {cases.map((c) => (
-              <tr key={c.id} className="text-center">
+              <tr
+                key={c.id}
+                onClick={() => onCaseClick(c)}
+                className="text-center cursor-pointer hover:bg-blue-50 transition"
+              >
                 <td className="p-2 border">{c.id}</td>
                 <td className="p-2 border">{c.name}</td>
                 <td className="p-2 border">{c.bank}</td>

@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import SearchBar from "../SearchBar";
 import RecentCases from "../RecentCases";
 import CreateCaseButton from "../CreateCaseButton";
+import CaseModal from "../CaseModal";
 
 export default function AdminPage() {
   const [cases, setCases] = useState([]);
   const [filteredCases, setFilteredCases] = useState([]);
+  const [selectedCase, setSelectedCase] = useState(null);
 
-  // Mock fetch (later replace with API)
   useEffect(() => {
     const mockCases = [
       { id: "NETRA-101", name: "Rahul Sharma", bank: "SBI", status: "Active" },
@@ -15,18 +16,12 @@ export default function AdminPage() {
       { id: "NETRA-103", name: "Priya Singh", bank: "ICICI", status: "Active" },
       { id: "NETRA-104", name: "Rohit Gupta", bank: "PNB", status: "Investigating" },
       { id: "NETRA-105", name: "Neha Jain", bank: "Axis", status: "Active" },
-      { id: "NETRA-106", name: "Karan Mehta", bank: "SBI", status: "Closed" },
-      { id: "NETRA-107", name: "Vikas Sharma", bank: "BOB", status: "Active" },
-      { id: "NETRA-108", name: "Anjali Kapoor", bank: "HDFC", status: "Investigating" },
-      { id: "NETRA-109", name: "Manish Yadav", bank: "ICICI", status: "Closed" },
-      { id: "NETRA-110", name: "Sneha Roy", bank: "Axis", status: "Active" }
     ];
 
     setCases(mockCases);
     setFilteredCases(mockCases);
   }, []);
 
-  // Search logic
   const handleSearch = (query) => {
     if (!query) {
       setFilteredCases(cases);
@@ -44,7 +39,7 @@ export default function AdminPage() {
   };
 
   const handleCreateCase = () => {
-    alert("Create Case clicked (Later → open form / route)");
+    alert("Create Case clicked");
   };
 
   return (
@@ -53,9 +48,16 @@ export default function AdminPage() {
 
       <SearchBar onSearch={handleSearch} />
 
-      <RecentCases cases={filteredCases.slice(0, 10)} />
+      <RecentCases cases={filteredCases} onCaseClick={setSelectedCase} />
 
       <CreateCaseButton onCreate={handleCreateCase} />
+
+      {selectedCase && (
+        <CaseModal
+          caseData={selectedCase}
+          onClose={() => setSelectedCase(null)}
+        />
+      )}
     </div>
   );
 }
