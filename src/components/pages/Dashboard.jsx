@@ -49,28 +49,62 @@ export default function AdminPage() {
     setFilteredCases((prev) => [...prev, newCase]);
   };
 
-  return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">NETRA Admin Dashboard</h1>
+ return (
+  <div className="min-h-screen bg-gray-50 p-6 space-y-8">
 
-      <SearchBar onSearch={handleSearch} />
-
-      <RecentCases cases={filteredCases} onCaseClick={setSelectedCase} />
-
-      <CreateCaseButton onCreate={handleCreateCase} />
-
-      {selectedCase && (
-        <CaseModal
-          caseData={selectedCase}
-          onClose={() => setSelectedCase(null)}
-        />
-      )}
-      {showCreateModal && (
-        <CreateCaseModal
-          onClose={() => setShowCreateModal(false)}
-          onSave={handleSaveCase}
-        />
-      )}
+    {/* Header Section */}
+    <div className="text-center space-y-1">
+      <h1 className="text-4xl font-bold text-gray-900 relative inline-block 
+      after:block after:h-1 after:bg-indigo-600 after:w-full after:mt-1">
+        NETRA Admin Dashboard
+      </h1>
+      <p className="text-gray-500">
+        Manage cases, monitor activity, and create new investigations.
+      </p>
     </div>
-  );
+
+    {/* Search Section */}
+    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
+      <SearchBar onSearch={handleSearch} />
+    </div>
+
+    {/* Recent Cases Section */}
+    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-semibold text-gray-800">
+          Recent Cases
+        </h2>
+
+        <button
+          onClick={handleCreateCase}
+          className="bg-indigo-600 text-white px-4 py-2 rounded-xl 
+          hover:bg-indigo-700 transition font-medium shadow-sm"
+        >
+          + Create Case
+        </button>
+      </div>
+
+      <RecentCases
+        cases={filteredCases}
+        onCaseClick={setSelectedCase}
+      />
+    </div>
+
+    {/* View Case Modal */}
+    {selectedCase && (
+      <CaseModal
+        caseData={selectedCase}
+        onClose={() => setSelectedCase(null)}
+      />
+    )}
+
+    {/* Create Case Modal */}
+    {showCreateModal && (
+      <CreateCaseModal
+        onClose={() => setShowCreateModal(false)}
+        onSave={handleSaveCase}
+      />
+    )}
+  </div>
+);
 }
