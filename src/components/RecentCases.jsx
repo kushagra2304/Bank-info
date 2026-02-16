@@ -18,11 +18,11 @@ export default function RecentCases({ cases, onCaseClick }) {
     <div className="bg-white rounded-2xl border border-gray-200 shadow-md">
 
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      {/* <div className="px-6 py-4 border-b border-gray-200">
         <h2 className="text-xl font-semibold text-gray-800">
           Recent Cases
         </h2>
-      </div>
+      </div> */}
 
       {/* Content */}
       <div className="overflow-x-auto">

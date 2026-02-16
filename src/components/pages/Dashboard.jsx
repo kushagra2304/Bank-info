@@ -72,7 +72,7 @@ export default function AdminPage() {
     <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold text-gray-800">
-          Recent Cases
+          Cases
         </h2>
 
         <button
