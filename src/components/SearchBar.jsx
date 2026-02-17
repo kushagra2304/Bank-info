@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function SearchBar({ onSearch }) {
+export default function SearchBar({ onSearch, onCreate }) {
   const [query, setQuery] = useState("");
 
   const handleChange = (e) => {
@@ -9,15 +9,44 @@ export default function SearchBar({ onSearch }) {
     onSearch(value);
   };
 
+  const handleReset = () => {
+    setQuery("");
+    onSearch("");
+  };
+
   return (
-    <div className="mb-6">
+    <div className="w-full flex items-center gap-4">
+
+      {/* Search Input - Takes Full Available Space */}
       <input
         type="text"
-        placeholder="Search by Name, Case ID, Bank..."
+        placeholder="SEARCH BY NAME, CASE ID, BANK"
         value={query}
         onChange={handleChange}
-        className="w-full p-3 border rounded-lg shadow-sm"
+        className="flex-1 bg-black border border-gray-700 px-6 py-3 text-white
+                   focus:outline-none focus:border-yellow-400
+                   placeholder-gray-500 uppercase tracking-wider text-sm"
       />
+
+      {/* Reset Button */}
+      <button
+        onClick={handleReset}
+        className="border border-gray-600 px-6 py-3 text-gray-300
+                   hover:bg-gray-800 transition uppercase text-sm tracking-wide"
+      >
+        Reset
+      </button>
+
+      {/* Create Case Button */}
+      <button
+        onClick={onCreate}
+        className="bg-yellow-400 text-black px-8 py-3
+                   font-semibold uppercase tracking-wide
+                   hover:bg-yellow-300 transition"
+      >
+        Create Case
+      </button>
+
     </div>
   );
 }

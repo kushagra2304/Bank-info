@@ -30,33 +30,36 @@ export default function CreateCaseModal({ onClose, onSave }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-      
-      {/* Modal Card */}
-      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl 
-      border border-gray-200 p-8 relative max-h-[90vh] overflow-y-auto 
-      animate-in fade-in duration-300">
+    <div className="fixed inset-0 bg-black/80 flex justify-center items-center z-50 p-6">
+
+      {/* Modal Container */}
+      <div className="bg-[#0d0d0d] border border-gray-800 w-full max-w-3xl 
+                      max-h-[90vh] overflow-y-auto p-10 relative">
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 rounded-full 
-          hover:bg-gray-100 transition"
+          className="absolute top-6 right-6 text-gray-500 hover:text-red-500 transition"
         >
-          <X className="w-5 h-5 text-gray-500 hover:text-red-500" />
+          <X className="w-5 h-5" />
         </button>
 
         {/* Header */}
-        <h2 className="text-2xl font-bold text-indigo-700 mb-6">
-          Create New Case
-        </h2>
+        <div className="border-b border-gray-800 pb-6 mb-8">
+          <h2 className="text-2xl font-bold text-yellow-400 uppercase tracking-wide">
+            Register New Case
+          </h2>
+          <p className="text-gray-500 text-sm mt-2 uppercase tracking-wider">
+            Investigation Case Registration Form
+          </p>
+        </div>
 
-        {/* Form Fields */}
-        <div className="space-y-5">
+        {/* Form */}
+        <div className="space-y-8">
 
           {/* Case ID */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
+            <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">
               Case ID
             </label>
             <input
@@ -65,15 +68,15 @@ export default function CreateCaseModal({ onClose, onSave }) {
               value={formData.id}
               onChange={handleChange}
               placeholder="NETRA-111"
-              className="w-full border border-gray-300 rounded-xl px-4 py-2 
-              focus:outline-none focus:ring-2 focus:ring-indigo-500 
-              focus:border-indigo-500 transition"
+              className="w-full bg-black border border-gray-700 px-4 py-3
+                         text-white focus:outline-none
+                         focus:border-yellow-400 transition"
             />
           </div>
 
           {/* Customer Name */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
+            <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">
               Customer Name
             </label>
             <input
@@ -81,15 +84,15 @@ export default function CreateCaseModal({ onClose, onSave }) {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-xl px-4 py-2 
-              focus:outline-none focus:ring-2 focus:ring-indigo-500 
-              focus:border-indigo-500 transition"
+              className="w-full bg-black border border-gray-700 px-4 py-3
+                         text-white focus:outline-none
+                         focus:border-yellow-400 transition"
             />
           </div>
 
           {/* Bank */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
+            <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">
               Bank
             </label>
             <input
@@ -97,24 +100,24 @@ export default function CreateCaseModal({ onClose, onSave }) {
               name="bank"
               value={formData.bank}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-xl px-4 py-2 
-              focus:outline-none focus:ring-2 focus:ring-indigo-500 
-              focus:border-indigo-500 transition"
+              className="w-full bg-black border border-gray-700 px-4 py-3
+                         text-white focus:outline-none
+                         focus:border-yellow-400 transition"
             />
           </div>
 
           {/* Status */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Status
+            <label className="block text-xs uppercase tracking-wider text-gray-500 mb-2">
+              Case Status
             </label>
             <select
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full border border-gray-300 rounded-xl px-4 py-2 
-              focus:outline-none focus:ring-2 focus:ring-indigo-500 
-              focus:border-indigo-500 transition"
+              className="w-full bg-black border border-gray-700 px-4 py-3
+                         text-white focus:outline-none
+                         focus:border-yellow-400 transition"
             >
               <option>Active</option>
               <option>Closed</option>
@@ -124,32 +127,34 @@ export default function CreateCaseModal({ onClose, onSave }) {
 
           {/* File Upload */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Attach Files
+            <label className="block text-xs uppercase tracking-wider text-gray-500 mb-3">
+              Attach Supporting Documents
             </label>
+
             <input
               type="file"
               multiple
               onChange={handleFileChange}
-              className="block w-full text-sm text-gray-600
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-xl file:border-0
-              file:text-sm file:font-medium
-              file:bg-indigo-100 file:text-indigo-700
-              hover:file:bg-indigo-200 transition"
+              className="block w-full text-sm text-gray-400
+                         file:mr-6 file:py-2 file:px-6
+                         file:border file:border-gray-700
+                         file:bg-black file:text-yellow-400
+                         file:uppercase file:text-xs
+                         hover:file:bg-gray-900 transition"
             />
           </div>
 
-          {/* Selected Files Preview */}
+          {/* Selected Files */}
           {files.length > 0 && (
-            <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
-              <h4 className="text-sm font-semibold text-gray-800 mb-2">
+            <div className="border border-gray-800 p-6">
+              <h4 className="text-xs uppercase tracking-wider text-gray-500 mb-4">
                 Selected Files
               </h4>
-              <ul className="space-y-2 text-sm text-gray-600">
+
+              <ul className="space-y-3 text-sm text-gray-300">
                 {files.map((file, index) => (
-                  <li key={index} className="flex justify-between">
-                    <span>{file.name}</span>
+                  <li key={index} className="border-b border-gray-800 pb-2">
+                    {file.name}
                   </li>
                 ))}
               </ul>
@@ -159,13 +164,13 @@ export default function CreateCaseModal({ onClose, onSave }) {
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            className="w-full bg-indigo-600 text-white py-3 rounded-xl 
-            font-medium hover:bg-indigo-700 
-            shadow-sm hover:shadow-md 
-            transition-all duration-200"
+            className="w-full bg-yellow-400 text-black py-4
+                       font-semibold uppercase tracking-wide
+                       hover:bg-yellow-300 transition"
           >
             Create Case
           </button>
+
         </div>
       </div>
     </div>

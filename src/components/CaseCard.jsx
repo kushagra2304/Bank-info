@@ -4,32 +4,33 @@ export default function CaseCard({ caseData, onClick }) {
   const getStatusStyles = (status) => {
     switch (status) {
       case "Active":
-        return "bg-green-100 text-green-700";
+        return "text-green-400";
       case "Closed":
-        return "bg-gray-200 text-gray-700";
+        return "text-gray-400";
       case "Investigating":
-        return "bg-yellow-100 text-yellow-700";
+        return "text-yellow-400";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "text-gray-500";
     }
   };
 
   return (
     <div
       onClick={() => onClick(caseData)}
-      className="bg-white rounded-2xl border border-gray-200 
-      p-5 cursor-pointer shadow-sm 
-      hover:shadow-xl hover:scale-[1.02] 
-      transition-all duration-300"
+      className="bg-[#0d0d0d] border border-gray-800 p-6 cursor-pointer
+                 hover:bg-[#1a1a1a] transition"
     >
-      {/* Case ID */}
-      <div className="flex justify-between items-start mb-3">
-        <h2 className="text-lg font-semibold text-indigo-700">
+      {/* Top Section */}
+      <div className="flex justify-between items-start mb-4">
+
+        {/* Case ID */}
+        <h2 className="text-lg font-semibold text-yellow-400 tracking-wide uppercase">
           {caseData.id}
         </h2>
 
+        {/* Status */}
         <span
-          className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusStyles(
+          className={`text-sm font-semibold uppercase tracking-wider ${getStatusStyles(
             caseData.status
           )}`}
         >
@@ -37,16 +38,16 @@ export default function CaseCard({ caseData, onClick }) {
         </span>
       </div>
 
-      {/* Case Info */}
-      <div className="space-y-1 text-sm text-gray-600">
-        <p>
-          <span className="font-medium text-gray-800">Name:</span>{" "}
-          {caseData.name}
-        </p>
-        <p>
-          <span className="font-medium text-gray-800">Bank:</span>{" "}
-          {caseData.bank}
-        </p>
+      {/* Divider */}
+      <div className="border-t border-gray-800 mb-4"></div>
+
+      {/* Case Details */}
+      <div className="space-y-2 text-sm tracking-wide">
+        <p className="text-gray-400 uppercase text-xs">Name</p>
+        <p className="text-gray-300">{caseData.name}</p>
+
+        <p className="text-gray-400 uppercase text-xs mt-3">Bank</p>
+        <p className="text-gray-300">{caseData.bank}</p>
       </div>
     </div>
   );

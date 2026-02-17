@@ -4,81 +4,64 @@ export default function RecentCases({ cases, onCaseClick }) {
   const getStatusStyles = (status) => {
     switch (status) {
       case "Active":
-        return "bg-green-100 text-green-700";
+        return "text-green-400";
       case "Closed":
-        return "bg-gray-200 text-gray-700";
+        return "text-gray-400";
       case "Investigating":
-        return "bg-yellow-100 text-yellow-700";
+        return "text-yellow-400";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "text-gray-500";
     }
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200 shadow-md">
+    <div className="border border-gray-800 bg-[#0d0d0d]">
 
-      {/* Header */}
-      {/* <div className="px-6 py-4 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-800">
-          Recent Cases
-        </h2>
-      </div> */}
-
-      {/* Content */}
       <div className="overflow-x-auto">
         {cases.length === 0 ? (
-          <div className="p-6 text-center text-gray-500">
-            No cases found
+          <div className="p-8 text-center text-gray-500 uppercase tracking-wider">
+            No Case Records Found
           </div>
         ) : (
-          <table className="w-full text-sm">
+          <table className="w-full text-sm border-collapse">
+
+            {/* Table Header */}
             <thead>
-              <tr className="bg-gray-50 text-gray-600">
-                <th className="px-6 py-3 text-left font-medium">
-                  Case ID
-                </th>
-                <th className="px-6 py-3 text-left font-medium">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left font-medium">
-                  Bank
-                </th>
-                <th className="px-6 py-3 text-left font-medium">
-                  Status
-                </th>
+              <tr className="bg-[#111111] border-b border-gray-700 text-gray-400 uppercase tracking-wider text-xs">
+                <th className="px-6 py-4 text-left">Case ID</th>
+                <th className="px-6 py-4 text-left">Name</th>
+                <th className="px-6 py-4 text-left">Bank</th>
+                <th className="px-6 py-4 text-left">Status</th>
               </tr>
             </thead>
 
+            {/* Table Body */}
             <tbody>
-              {cases.map((c) => (
+              {cases.map((c, index) => (
                 <tr
                   key={c.id}
                   onClick={() => onCaseClick(c)}
-                  className="border-t border-gray-200 
-                  hover:bg-indigo-50 cursor-pointer 
-                  transition-colors"
+                  className="border-b border-gray-800 hover:bg-[#1a1a1a] cursor-pointer transition"
                 >
-                  <td className="px-6 py-4 font-medium text-indigo-700">
+                  <td className="px-6 py-5 font-semibold text-yellow-400 tracking-wide">
                     {c.id}
                   </td>
-                  <td className="px-6 py-4 text-gray-700">
+
+                  <td className="px-6 py-5 text-gray-300">
                     {c.name}
                   </td>
-                  <td className="px-6 py-4 text-gray-600">
+
+                  <td className="px-6 py-5 text-gray-400">
                     {c.bank}
                   </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusStyles(
-                        c.status
-                      )}`}
-                    >
-                      {c.status}
-                    </span>
+
+                  <td className={`px-6 py-5 font-semibold uppercase tracking-wide ${getStatusStyles(c.status)}`}>
+                    {c.status}
                   </td>
                 </tr>
               ))}
             </tbody>
+
           </table>
         )}
       </div>

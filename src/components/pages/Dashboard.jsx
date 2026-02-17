@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-import SearchBar from "../SearchBar";
 import RecentCases from "../RecentCases";
-import CreateCaseButton from "../CreateCaseButton";
 import CaseModal from "../CaseModal";
-import CreateCaseModal from "../CreateCaseModal"; 
+import CreateCaseModal from "../CreateCaseModal";
 
 export default function AdminPage() {
   const [cases, setCases] = useState([]);
   const [filteredCases, setFilteredCases] = useState([]);
   const [selectedCase, setSelectedCase] = useState(null);
-  const [showCreateModal, setShowCreateModal] = useState(false); 
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const mockCases = [
@@ -25,6 +24,8 @@ export default function AdminPage() {
   }, []);
 
   const handleSearch = (query) => {
+    setSearchQuery(query);
+
     if (!query) {
       setFilteredCases(cases);
       return;
@@ -49,62 +50,105 @@ export default function AdminPage() {
     setFilteredCases((prev) => [...prev, newCase]);
   };
 
- return (
-  <div className="min-h-screen bg-gray-50 p-6 space-y-8">
+  return (
+    <div className="min-h-screen bg-black text-white px-10 py-8">
 
-    {/* Header Section */}
-    <div className="text-center space-y-1">
-      <h1 className="text-4xl font-bold text-gray-900 relative inline-block 
-      after:block after:h-1 after:bg-indigo-600 after:w-full after:mt-1">
-        NETRA Admin Dashboard
-      </h1>
-      <p className="text-gray-500">
-        Manage cases, monitor activity, and create new investigations.
-      </p>
-    </div>
-
-    {/* Search Section */}
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
-      <SearchBar onSearch={handleSearch} />
-    </div>
-
-    {/* Recent Cases Section */}
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-semibold text-gray-800">
-          Cases
+      {/* Top Navbar */}
+      <div className="flex justify-between items-center border-b border-gray-800 pb-4">
+        <h2 className="text-xl font-bold tracking-widest uppercase">
+          NETRA PORTAL
         </h2>
 
         <button
           onClick={handleCreateCase}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-xl 
-          hover:bg-indigo-700 transition font-medium shadow-sm"
+          className="bg-yellow-400 text-black font-semibold px-6 py-2 hover:bg-yellow-300 transition"
         >
-          + Create Case
+          CREATE CASE
         </button>
       </div>
 
-      <RecentCases
-        cases={filteredCases}
-        onCaseClick={setSelectedCase}
-      />
-    </div>
+      {/* Hero Section */}
+      <div className="text-center py-14 border-b border-gray-900">
+        <h1 className="text-5xl font-extrabold tracking-widest uppercase">
+          View Cases
+        </h1>
+        <p className="text-gray-400 mt-4 uppercase text-sm tracking-wider">
+          Investigation Case Management System
+        </p>
+      </div>
 
-    {/* View Case Modal */}
-    {selectedCase && (
-      <CaseModal
-        caseData={selectedCase}
-        onClose={() => setSelectedCase(null)}
-      />
-    )}
+      {/* Filter Section */}
+      <div className="bg-[#111111] border border-gray-800 p-6 mt-10">
+  
+  <div className="flex items-center gap-4 w-full">
 
-    {/* Create Case Modal */}
-    {showCreateModal && (
-      <CreateCaseModal
-        onClose={() => setShowCreateModal(false)}
-        onSave={handleSaveCase}
-      />
-    )}
+    {/* Search Input - Expands Full Width */}
+    <input
+      type="text"
+      value={searchQuery}
+      onChange={(e) => handleSearch(e.target.value)}
+      placeholder="SEARCH BY CASE ID, NAME, BANK"
+      className="flex-1 bg-black border border-gray-700 px-6 py-3 text-white
+                 focus:outline-none focus:border-yellow-400
+                 placeholder-gray-500 uppercase tracking-wider text-sm"
+    />
+
+    {/* Reset Button */}
+    <button
+      onClick={() => handleSearch("")}
+      className="border border-gray-600 px-6 py-3 text-gray-300
+                 hover:bg-gray-800 transition uppercase text-sm tracking-wide"
+    >
+      Reset
+    </button>
+
+    {/* Create Case Button */}
+    <button
+      onClick={handleCreateCase}
+      className="bg-yellow-400 text-black px-8 py-3
+                 font-semibold uppercase tracking-wide
+                 hover:bg-yellow-300 transition"
+    >
+      Create Case
+    </button>
+
   </div>
-);
+
+</div>
+
+      {/* Cases Table Section */}
+      <div className="mt-10 bg-[#0d0d0d] border border-gray-800 p-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold tracking-wider uppercase">
+            Case Records
+          </h2>
+
+          <span className="text-gray-400 text-sm">
+            Total Cases: {filteredCases.length}
+          </span>
+        </div>
+
+        <RecentCases
+          cases={filteredCases}
+          onCaseClick={setSelectedCase}
+        />
+      </div>
+
+      {/* View Case Modal */}
+      {selectedCase && (
+        <CaseModal
+          caseData={selectedCase}
+          onClose={() => setSelectedCase(null)}
+        />
+      )}
+
+      {/* Create Case Modal */}
+      {showCreateModal && (
+        <CreateCaseModal
+          onClose={() => setShowCreateModal(false)}
+          onSave={handleSaveCase}
+        />
+      )}
+    </div>
+  );
 }
