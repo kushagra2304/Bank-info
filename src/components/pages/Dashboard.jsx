@@ -12,11 +12,11 @@ export default function AdminPage() {
 
   useEffect(() => {
     const mockCases = [
-      { id: "NETRA-101", name: "Rahul Sharma", bank: "SBI", status: "Active" },
-      { id: "NETRA-102", name: "Aman Verma", bank: "HDFC", status: "Closed" },
-      { id: "NETRA-103", name: "Priya Singh", bank: "ICICI", status: "Active" },
-      { id: "NETRA-104", name: "Rohit Gupta", bank: "PNB", status: "Investigating" },
-      { id: "NETRA-105", name: "Neha Jain", bank: "Axis", status: "Active" },
+      { id: "101", name: "Rahul Sharma", bank: "SBI", status: "Active" },
+      { id: "102", name: "Aman Verma", bank: "HDFC", status: "Closed" },
+      { id: "103", name: "Priya Singh", bank: "ICICI", status: "Active" },
+      { id: "104", name: "Rohit Gupta", bank: "PNB", status: "Investigating" },
+      { id: "105", name: "Neha Jain", bank: "Axis", status: "Active" },
     ];
 
     setCases(mockCases);
@@ -54,7 +54,7 @@ export default function AdminPage() {
     <div className="min-h-screen bg-black text-white px-10 py-8">
 
       {/* Top Navbar */}
-      <div className="flex justify-between items-center border-b border-gray-800 pb-4">
+      {/* <div className="flex justify-between items-center border-b border-gray-800 pb-4">
         <h2 className="text-xl font-bold tracking-widest uppercase">
           NETRA PORTAL
         </h2>
@@ -65,7 +65,7 @@ export default function AdminPage() {
         >
           CREATE CASE
         </button>
-      </div>
+      </div> */}
 
       {/* Hero Section */}
       <div className="text-center py-14 border-b border-gray-900">

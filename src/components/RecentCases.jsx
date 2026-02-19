@@ -30,7 +30,7 @@ export default function RecentCases({ cases, onCaseClick }) {
               <tr className="bg-[#111111] border-b border-gray-700 text-gray-400 uppercase tracking-wider text-xs">
                 <th className="px-6 py-4 text-left">Case ID</th>
                 <th className="px-6 py-4 text-left">Name</th>
-                <th className="px-6 py-4 text-left">Bank</th>
+                {/* <th className="px-6 py-4 text-left">Bank</th> */}
                 <th className="px-6 py-4 text-left">Status</th>
               </tr>
             </thead>
@@ -51,9 +51,9 @@ export default function RecentCases({ cases, onCaseClick }) {
                     {c.name}
                   </td>
 
-                  <td className="px-6 py-5 text-gray-400">
+                  {/* <td className="px-6 py-5 text-gray-400">
                     {c.bank}
-                  </td>
+                  </td> */}
 
                   <td className={`px-6 py-5 font-semibold uppercase tracking-wide ${getStatusStyles(c.status)}`}>
                     {c.status}
