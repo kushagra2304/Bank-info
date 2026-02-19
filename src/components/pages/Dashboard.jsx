@@ -51,7 +51,7 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-10 py-8">
+    <div className=" bg-black text-white px-10 py-8 h-full overflow-auto p-6">
 
       {/* Top Navbar */}
       {/* <div className="flex justify-between items-center border-b border-gray-800 pb-4">

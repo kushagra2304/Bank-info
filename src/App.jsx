@@ -5,14 +5,16 @@ import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <>
+    <div className="h-screen flex flex-col">
       <Navbar />
 
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-      </Routes>
-    </>
+      <main className="flex-1 overflow-hidden">
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
 

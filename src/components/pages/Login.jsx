@@ -38,7 +38,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="relative h-screen w-screen flex items-center justify-center bg-black">
+    <div className="relative h-screen w-screen flex items-center justify-center bg-black ">
   
   {/* Animated Background */}
   <NetworkWeb />

@@ -195,8 +195,8 @@ export default function NetworkBackground() {
       style={{
         position: "absolute",
         inset: 0,
-        width: "100%",
-        height: "100%",
+        width: "100vw",
+        height: "100vh",
         zIndex: 0,
         pointerEvents: "none",
         background: "radial-gradient(ellipse at 50% 50%, #010c1e 0%, #000408 100%)",
