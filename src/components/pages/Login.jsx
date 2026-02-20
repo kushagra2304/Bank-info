@@ -3,7 +3,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
-import NetworkWeb from "../NetworkBackground";
+// import NetworkWeb from "../NetworkBackground";
+import NetworkWeb from "../Networkkk";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");

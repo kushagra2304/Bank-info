@@ -5,7 +5,7 @@ const CURRENCY_SYMBOLS = [
   "₺", "₦", "¢", "₮", "₱"
 ];
 
-export default function NetworkBackground() {
+export default function Networkkk() {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -111,26 +111,36 @@ export default function NetworkBackground() {
       });
 
       // White edges
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-          const dot =
-            nodes[i].nx * nodes[j].nx +
-            nodes[i].ny * nodes[j].ny +
-            nodes[i].nz * nodes[j].nz;
+for (let i = 0; i < nodes.length; i++) {
+  for (let j = i + 1; j < nodes.length; j++) {
+    const dot =
+      nodes[i].nx * nodes[j].nx +
+      nodes[i].ny * nodes[j].ny +
+      nodes[i].nz * nodes[j].nz;
 
-          if (dot > MAX_EDGE_DOT) {
-            const pi = projected[i];
-            const pj = projected[j];
+    if (dot > MAX_EDGE_DOT) {
+      const pi = projected[i];
+      const pj = projected[j];
 
-            ctx.beginPath();
-            ctx.moveTo(pi.sx + nodes[i].rx, pi.sy + nodes[i].ry);
-            ctx.lineTo(pj.sx + nodes[j].rx, pj.sy + nodes[j].ry);
-            ctx.strokeStyle = "rgba(255,255,255,0.15)";
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-        }
-      }
+      ctx.beginPath();
+      ctx.moveTo(pi.sx + nodes[i].rx, pi.sy + nodes[i].ry);
+      ctx.lineTo(pj.sx + nodes[j].rx, pj.sy + nodes[j].ry);
+
+      // 🔥 Brighter white lines
+      ctx.strokeStyle = "rgba(255,255,255,0.9)";
+      ctx.lineWidth = 2.5;
+
+      // ✨ Optional glow effect (recommended)
+      ctx.shadowColor = "white";
+      ctx.shadowBlur = 8;
+
+      ctx.stroke();
+
+      // Reset shadow so nodes don't glow too much
+      ctx.shadowBlur = 0;
+    }
+  }
+}
 
       const time = performance.now() / 1000;
 
