@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RecentCases from "../RecentCases";
 import CaseModal from "../CaseModal";
 import CreateCaseModal from "../CreateCaseModal";
+import Navbar1 from "../Navbar1";
 
 export default function AdminPage() {
   const [cases, setCases] = useState([]);
@@ -51,7 +52,8 @@ export default function AdminPage() {
   };
 
   return (
-    <div className=" bg-black text-white px-10 py-8 h-full overflow-auto p-6">
+    <div className=" bg-black text-white px-10 py-0 h-full overflow-auto p-6">
+      <Navbar1 /> 
 
       <div className="text-center py-14 border-b border-gray-900">
         <h1 className="text-5xl font-extrabold tracking-widest uppercase">
