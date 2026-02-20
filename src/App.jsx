@@ -4,6 +4,7 @@ import AdminDashboard from "./components/pages/Dashboard";
 import Navbar from "./components/Navbar";
 // import Navbar1 from "./components/Navbar1";
 import Banks from "./components/pages/Banks";
+import Entity from "./components/pages/Entity";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/banks" element={<Banks />} />
+          <Route path="/entity" element={<Entity />} />
+
         </Routes>
       </main>
     </div>
