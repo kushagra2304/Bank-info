@@ -14,6 +14,7 @@ export default function NetworkBackground() {
 
     let animationId;
 
+    // Resize
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -21,6 +22,7 @@ export default function NetworkBackground() {
     resize();
     window.addEventListener("resize", resize);
 
+    // Mouse tracking
     let mouse = { x: -9999, y: -9999 };
 
     const handleMouseMove = (e) => {
@@ -30,6 +32,7 @@ export default function NetworkBackground() {
 
     window.addEventListener("mousemove", handleMouseMove);
 
+    // Globe parameters
     const TOTAL_NODES = 32;
 
     function fibonacciSphere(count) {
@@ -74,7 +77,7 @@ export default function NetworkBackground() {
       const W = canvas.width;
       const H = canvas.height;
 
-      // ✅ BLACK BACKGROUND
+      // 🔥 Black Background
       ctx.fillStyle = "black";
       ctx.fillRect(0, 0, W, H);
 
@@ -107,7 +110,7 @@ export default function NetworkBackground() {
         return { sx, sy, z2, depth, scale };
       });
 
-      // Edges
+      // White edges
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dot =
@@ -119,14 +122,11 @@ export default function NetworkBackground() {
             const pi = projected[i];
             const pj = projected[j];
 
-            const avgDepth = (pi.depth + pj.depth) / 2;
-            const alpha = 0.06 + avgDepth * 0.55;
-
             ctx.beginPath();
             ctx.moveTo(pi.sx + nodes[i].rx, pi.sy + nodes[i].ry);
             ctx.lineTo(pj.sx + nodes[j].rx, pj.sy + nodes[j].ry);
-            ctx.strokeStyle = `rgba(90, 200, 255, ${alpha})`;
-            ctx.lineWidth = 0.6 + avgDepth * 0.7;
+            ctx.strokeStyle = "rgba(255,255,255,0.15)";
+            ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
@@ -138,6 +138,7 @@ export default function NetworkBackground() {
         const p = projected[i];
         if (p.depth < 0.04) return;
 
+        // Mouse Repulsion
         let dx = p.sx - mouse.x;
         let dy = p.sy - mouse.y;
         let dist = Math.sqrt(dx * dx + dy * dy);
@@ -157,78 +158,28 @@ export default function NetworkBackground() {
         node.ry += (targetY - node.ry) * 0.15;
 
         const pulse =
-          0.88 + 0.12 * Math.sin(time * 1.8 + node.pulsePhase);
+          0.9 + 0.1 * Math.sin(time * 1.8 + node.pulsePhase);
 
-        // ✅ INCREASED NODE SIZE HERE
-        const nodeR = (12 + p.scale * 22) * pulse;
-
-        const alpha = 0.12 + p.depth * 0.88;
+        // 🔥 Increased size
+        const nodeR = (12 + p.scale * 18) * pulse;
 
         const x = p.sx + node.rx;
         const y = p.sy + node.ry;
 
-        const glowR = nodeR * 3;
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, glowR);
-        glow.addColorStop(0, `rgba(20, 170, 255, ${0.28 * alpha})`);
-        glow.addColorStop(1, `rgba(0, 80, 180, 0)`);
-
-        ctx.beginPath();
-        ctx.arc(x, y, glowR, 0, Math.PI * 2);
-        ctx.fillStyle = glow;
-        ctx.fill();
-
-        const core = ctx.createRadialGradient(
-          x - nodeR * 0.28,
-          y - nodeR * 0.28,
-          nodeR * 0.05,
-          x,
-          y,
-          nodeR
-        );
-
-        core.addColorStop(0, `rgba(190, 245, 255, ${alpha})`);
-        core.addColorStop(0.55, `rgba(0, 155, 225, ${alpha * 0.9})`);
-        core.addColorStop(1, `rgba(0, 50, 150, ${alpha * 0.75})`);
-
+        // White solid circle
         ctx.beginPath();
         ctx.arc(x, y, nodeR, 0, Math.PI * 2);
-        ctx.fillStyle = core;
+        ctx.fillStyle = "white";
         ctx.fill();
 
-        ctx.beginPath();
-        ctx.arc(x, y, nodeR, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(170, 235, 255, ${alpha * 0.95})`;
-        ctx.lineWidth = 0.9 + p.depth * 0.9;
-        ctx.stroke();
-
-        const fontSize = Math.max(12, Math.floor(nodeR * 1.1));
-        ctx.font = `700 ${fontSize}px 'Courier New', monospace`;
+        // Black text inside
+        const fontSize = Math.max(12, Math.floor(nodeR * 0.9));
+        ctx.font = `bold ${fontSize}px Arial`;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-        ctx.shadowColor = `rgba(0, 220, 255, ${alpha})`;
-        ctx.shadowBlur = 5;
+        ctx.fillStyle = "black";
         ctx.fillText(node.symbol, x, y);
-        ctx.shadowBlur = 0;
       });
-
-      const atmo = ctx.createRadialGradient(
-        cx,
-        cy,
-        globeR * 0.9,
-        cx,
-        cy,
-        globeR * 1.1
-      );
-
-      atmo.addColorStop(0, "rgba(0, 140, 255, 0.0)");
-      atmo.addColorStop(0.6, "rgba(0, 100, 255, 0.03)");
-      atmo.addColorStop(1, "rgba(0, 60, 180, 0.0)");
-
-      ctx.beginPath();
-      ctx.arc(cx, cy, globeR * 1.1, 0, Math.PI * 2);
-      ctx.fillStyle = atmo;
-      ctx.fill();
 
       animationId = requestAnimationFrame(draw);
     };
