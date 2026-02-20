@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 
-const CURRENCY_SYMBOLS = ["$", "€", "£", "¥", "₹", "₿", "₩", "₣", "₴", "฿", "₺", "₦", "¢", "₮", "₱"];
+const CURRENCY_SYMBOLS = [
+  "$", "€", "£", "¥", "₹", "₿", "₩", "₣", "₴", "฿",
+  "₺", "₦", "¢", "₮", "₱"
+];
 
 export default function NetworkBackground() {
   const canvasRef = useRef(null);
@@ -8,8 +11,10 @@ export default function NetworkBackground() {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
+
     let animationId;
 
+    // Resize
     const resize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -17,17 +22,28 @@ export default function NetworkBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    // --- Globe parameters ---
+    // Mouse tracking
+    let mouse = { x: -9999, y: -9999 };
+
+    const handleMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Globe parameters
     const TOTAL_NODES = 32;
 
-    // Place nodes on a sphere using Fibonacci sphere distribution
     function fibonacciSphere(count) {
       const points = [];
       const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
       for (let i = 0; i < count; i++) {
         const y = 1 - (i / (count - 1)) * 2;
         const radius = Math.sqrt(1 - y * y);
         const theta = goldenAngle * i;
+
         points.push({
           x: Math.cos(theta) * radius,
           y: y,
@@ -45,15 +61,17 @@ export default function NetworkBackground() {
       nz: p.z,
       symbol: CURRENCY_SYMBOLS[i % CURRENCY_SYMBOLS.length],
       pulsePhase: Math.random() * Math.PI * 2,
+      rx: 0, // repulsion offset x
+      ry: 0, // repulsion offset y
     }));
 
-    // Rotation angles
     let rotY = 0;
-    const rotX = 0.2; // slight tilt like the image
-
+    const rotX = 0.2;
     const ROTATION_SPEED = 0.003;
 
     const MAX_EDGE_DOT = 0.5;
+    const REPULSION_RADIUS = 120;
+    const REPULSION_STRENGTH = 20;
 
     const draw = () => {
       const W = canvas.width;
@@ -84,13 +102,12 @@ export default function NetworkBackground() {
 
         const sx = cx + x1 * globeR * scale;
         const sy = cy + y2 * globeR * scale;
-
         const depth = (z2 + 1) / 2;
 
         return { sx, sy, z2, depth, scale };
       });
 
-      // --- Draw edges ---
+      // Draw edges
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dot =
@@ -106,8 +123,8 @@ export default function NetworkBackground() {
             const alpha = 0.06 + avgDepth * 0.55;
 
             ctx.beginPath();
-            ctx.moveTo(pi.sx, pi.sy);
-            ctx.lineTo(pj.sx, pj.sy);
+            ctx.moveTo(pi.sx + nodes[i].rx, pi.sy + nodes[i].ry);
+            ctx.lineTo(pj.sx + nodes[j].rx, pj.sy + nodes[j].ry);
             ctx.strokeStyle = `rgba(90, 200, 255, ${alpha})`;
             ctx.lineWidth = 0.6 + avgDepth * 0.7;
             ctx.stroke();
@@ -115,48 +132,79 @@ export default function NetworkBackground() {
         }
       }
 
-      // --- Draw nodes ---
       const time = performance.now() / 1000;
+
       nodes.forEach((node, i) => {
         const p = projected[i];
         if (p.depth < 0.04) return;
 
-        const pulse = 0.88 + 0.12 * Math.sin(time * 1.8 + node.pulsePhase);
+        // Mouse Repulsion
+        let dx = p.sx - mouse.x;
+        let dy = p.sy - mouse.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        let targetX = 0;
+        let targetY = 0;
+
+        if (dist < REPULSION_RADIUS) {
+          const force =
+            (1 - dist / REPULSION_RADIUS) * REPULSION_STRENGTH;
+
+          targetX = (dx / dist) * force;
+          targetY = (dy / dist) * force;
+        }
+
+        // Smooth easing
+        node.rx += (targetX - node.rx) * 0.15;
+        node.ry += (targetY - node.ry) * 0.15;
+
+        const pulse =
+          0.88 + 0.12 * Math.sin(time * 1.8 + node.pulsePhase);
+
         const nodeR = (5 + p.scale * 11) * pulse;
         const alpha = 0.12 + p.depth * 0.88;
 
-        // Outer soft glow
+        const x = p.sx + node.rx;
+        const y = p.sy + node.ry;
+
+        // Glow
         const glowR = nodeR * 3;
-        const glow = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, glowR);
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, glowR);
         glow.addColorStop(0, `rgba(20, 170, 255, ${0.28 * alpha})`);
         glow.addColorStop(1, `rgba(0, 80, 180, 0)`);
+
         ctx.beginPath();
-        ctx.arc(p.sx, p.sy, glowR, 0, Math.PI * 2);
+        ctx.arc(x, y, glowR, 0, Math.PI * 2);
         ctx.fillStyle = glow;
         ctx.fill();
 
-        // Node core
+        // Core
         const core = ctx.createRadialGradient(
-          p.sx - nodeR * 0.28, p.sy - nodeR * 0.28, nodeR * 0.05,
-          p.sx, p.sy, nodeR
+          x - nodeR * 0.28,
+          y - nodeR * 0.28,
+          nodeR * 0.05,
+          x,
+          y,
+          nodeR
         );
+
         core.addColorStop(0, `rgba(190, 245, 255, ${alpha})`);
         core.addColorStop(0.55, `rgba(0, 155, 225, ${alpha * 0.9})`);
         core.addColorStop(1, `rgba(0, 50, 150, ${alpha * 0.75})`);
 
         ctx.beginPath();
-        ctx.arc(p.sx, p.sy, nodeR, 0, Math.PI * 2);
+        ctx.arc(x, y, nodeR, 0, Math.PI * 2);
         ctx.fillStyle = core;
         ctx.fill();
 
-        // Node border
+        // Border
         ctx.beginPath();
-        ctx.arc(p.sx, p.sy, nodeR, 0, Math.PI * 2);
+        ctx.arc(x, y, nodeR, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(170, 235, 255, ${alpha * 0.95})`;
         ctx.lineWidth = 0.9 + p.depth * 0.9;
         ctx.stroke();
 
-        // Currency symbol
+        // Currency Symbol
         const fontSize = Math.max(7, Math.floor(nodeR * 1.05));
         ctx.font = `700 ${fontSize}px 'Courier New', monospace`;
         ctx.textAlign = "center";
@@ -164,15 +212,24 @@ export default function NetworkBackground() {
         ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.shadowColor = `rgba(0, 220, 255, ${alpha})`;
         ctx.shadowBlur = 5;
-        ctx.fillText(node.symbol, p.sx, p.sy);
+        ctx.fillText(node.symbol, x, y);
         ctx.shadowBlur = 0;
       });
 
-      // Atmosphere ring
-      const atmo = ctx.createRadialGradient(cx, cy, globeR * 0.9, cx, cy, globeR * 1.1);
+      // Atmosphere
+      const atmo = ctx.createRadialGradient(
+        cx,
+        cy,
+        globeR * 0.9,
+        cx,
+        cy,
+        globeR * 1.1
+      );
+
       atmo.addColorStop(0, "rgba(0, 140, 255, 0.0)");
       atmo.addColorStop(0.6, "rgba(0, 100, 255, 0.03)");
       atmo.addColorStop(1, "rgba(0, 60, 180, 0.0)");
+
       ctx.beginPath();
       ctx.arc(cx, cy, globeR * 1.1, 0, Math.PI * 2);
       ctx.fillStyle = atmo;
@@ -186,6 +243,7 @@ export default function NetworkBackground() {
     return () => {
       cancelAnimationFrame(animationId);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
@@ -193,13 +251,10 @@ export default function NetworkBackground() {
     <canvas
       ref={canvasRef}
       style={{
-        position: "absolute",
-        inset: 0,
-        width: "100vw",
-        height: "100vh",
+        position: "fixed",
+        top: 50,
+        left: 0,
         zIndex: 0,
-        pointerEvents: "none",
-        background: "radial-gradient(ellipse at 50% 50%, #010c1e 0%, #000408 100%)",
       }}
     />
   );

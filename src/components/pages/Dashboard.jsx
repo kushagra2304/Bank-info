@@ -53,21 +53,6 @@ export default function AdminPage() {
   return (
     <div className=" bg-black text-white px-10 py-8 h-full overflow-auto p-6">
 
-      {/* Top Navbar */}
-      {/* <div className="flex justify-between items-center border-b border-gray-800 pb-4">
-        <h2 className="text-xl font-bold tracking-widest uppercase">
-          NETRA PORTAL
-        </h2>
-
-        <button
-          onClick={handleCreateCase}
-          className="bg-yellow-400 text-black font-semibold px-6 py-2 hover:bg-yellow-300 transition"
-        >
-          CREATE CASE
-        </button>
-      </div> */}
-
-      {/* Hero Section */}
       <div className="text-center py-14 border-b border-gray-900">
         <h1 className="text-5xl font-extrabold tracking-widest uppercase">
           View Cases
@@ -77,12 +62,9 @@ export default function AdminPage() {
         </p>
       </div>
 
-      {/* Filter Section */}
       <div className="bg-[#111111] border border-gray-800 p-6 mt-10">
   
   <div className="flex items-center gap-4 w-full">
-
-    {/* Search Input - Expands Full Width */}
     <input
       type="text"
       value={searchQuery}
@@ -92,8 +74,6 @@ export default function AdminPage() {
                  focus:outline-none focus:border-yellow-400
                  placeholder-gray-500 uppercase tracking-wider text-sm"
     />
-
-    {/* Reset Button */}
     <button
       onClick={() => handleSearch("")}
       className="border border-gray-600 px-6 py-3 text-gray-300
@@ -102,7 +82,6 @@ export default function AdminPage() {
       Reset
     </button>
 
-    {/* Create Case Button */}
     <button
       onClick={handleCreateCase}
       className="bg-yellow-400 text-black px-8 py-3
@@ -116,7 +95,6 @@ export default function AdminPage() {
 
 </div>
 
-      {/* Cases Table Section */}
       <div className="mt-10 bg-[#0d0d0d] border border-gray-800 p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-semibold tracking-wider uppercase">
@@ -134,7 +112,6 @@ export default function AdminPage() {
         />
       </div>
 
-      {/* View Case Modal */}
       {selectedCase && (
         <CaseModal
           caseData={selectedCase}
@@ -142,7 +119,6 @@ export default function AdminPage() {
         />
       )}
 
-      {/* Create Case Modal */}
       {showCreateModal && (
         <CreateCaseModal
           onClose={() => setShowCreateModal(false)}
